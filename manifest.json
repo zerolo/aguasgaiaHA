@@ -1,0 +1,14 @@
+{
+    "version": "0.0.1",
+    "domain": "aguas_gaia",
+    "name": "Aguas de Gaia",
+    "documentation": "",
+    "issue_tracker": "",
+    "iot_class": "cloud_polling",
+    "requirements": [],
+    "dependencies": [],
+    "codeowners": [
+        "JR Inc"
+    ],
+    "config_flow": true
+}

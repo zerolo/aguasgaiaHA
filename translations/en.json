@@ -1,0 +1,25 @@
+{
+    "title": "Aguas de Gaia",
+    "config": {
+        "step": {
+            "user": {
+                "title": "Please add your credentials of Aguas de Gaia",
+                "description": "This is a description",
+                "data": {
+                    "username": "Aguas de Gaia username",
+                    "password": "Aguas de Gaia password"
+                },
+                "data_description": {
+                    "username": "username description",
+                    "password": "password description"
+                }
+            }
+        },
+        "error": {
+            "invalid_login": "Invalid Login"
+        },
+        "abort": {
+            "already_configured": "Integration is already configured"
+        }
+    }
+}
