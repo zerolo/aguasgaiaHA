@@ -1,6 +1,6 @@
 import logging
 from typing import Any
-from .api.aguasgaia import AguasGaia
+from .aguasgaia.aguasgaia import AguasGaia
 import voluptuous as vol
 
 from homeassistant import config_entries

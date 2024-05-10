@@ -1,6 +1,6 @@
 import logging
 
-from .api.aguasgaia import AguasGaia
+from .aguasgaia.aguasgaia import AguasGaia
 from .const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
