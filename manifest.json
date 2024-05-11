@@ -8,7 +8,7 @@
     "requirements": [],
     "dependencies": [],
     "codeowners": [
-        "JR Inc"
+        @zerolo
     ],
     "config_flow": true
 }
