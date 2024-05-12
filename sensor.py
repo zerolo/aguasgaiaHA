@@ -13,7 +13,7 @@ from .const import (
     UNIT_OF_MEASUREMENT_WATER,
     ATTRIBUTION
 )
-from .aguasgaia.aguasgaia import AguasGaia
+from aguasgaia import AguasGaia
 
 from homeassistant.components.sensor import (SensorDeviceClass, SensorEntity,
                                              SensorStateClass)

@@ -5,10 +5,10 @@
     "documentation": "",
     "issue_tracker": "",
     "iot_class": "cloud_polling",
-    "requirements": [],
+    "requirements": ["git+https://github.com/zerolo/aguasgaia.git@main"],
     "dependencies": [],
     "codeowners": [
-        @zerolo
+        "@zerolo"
     ],
     "config_flow": true
 }

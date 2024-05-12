@@ -1,12 +1,13 @@
 import logging
 from typing import Any
-from .aguasgaia.aguasgaia import AguasGaia
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
+
+from aguasgaia import AguasGaia
 
 
 _LOGGER = logging.getLogger(__name__)
