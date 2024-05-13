@@ -55,7 +55,7 @@ class AguasGaiaSensor(SensorEntity):
         self._sensorType = sensorType
         self._invoice = None
         self._consumption = None
-        self._subscription_id = None
+        self._entity_name = self._sensorType+"_"+self._api.get_subscription()
         self._state_class = SensorStateClass.MEASUREMENT
         self._state = None
         self._available = True
@@ -73,12 +73,12 @@ class AguasGaiaSensor(SensorEntity):
     @property
     def name(self) ->  str:
         """ Entity Name """
-        return self._sensorType
+        return self._entity_name
     
     @property
     def unique_id(self) -> str:
         """ Sensor unique id """
-        return f"{DOMAIN}__{self._sensorType}"
+        return f"{DOMAIN}__{self._entity_name}"
     
     @property
     def available(self) -> bool:
