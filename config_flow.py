@@ -40,7 +40,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if connOK:
                 _LOGGER.debug("Login Succeeded")
                 return self.async_create_entry(
-                    title=user_input[CONF_USERNAME],
+                    title=user_input[CONF_USERNAME]+" - "+user_input[CONF_SUBSCRIPTIONID],
                     data=user_input
                 )
             else:

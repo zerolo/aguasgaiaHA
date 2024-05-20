@@ -68,6 +68,7 @@ class AguasGaiaSensor(SensorEntity):
             self._icon = DEFAULT_CONSUMPTION_ICON
             self._unit_of_measurement = UNIT_OF_MEASUREMENT_WATER
             self._device_class = SensorDeviceClass.WATER
+            self._state_class = SensorStateClass.TOTAL
             
 
     @property
@@ -107,6 +108,7 @@ class AguasGaiaSensor(SensorEntity):
     @property
     def attribution(self):
         return ATTRIBUTION
+    
     
     @property
     def extra_state_attributes(self) -> Dict[str, Any]:
