@@ -4,6 +4,7 @@ from typing import Any, Dict
 
 import aiohttp
 from .const import (
+    API,
     DOMAIN, 
     PRICE_ENTITY,
     CONSUMPTION_ENTITY,
@@ -36,9 +37,11 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, asyn
     _LOGGER.debug("Setup Entry")
     session = async_get_clientsession(hass, True)
 
-    config = config_entry.data
+    # config = config_entry.data
 
-    api = AguasGaia(session, config[CONF_USERNAME], config[CONF_PASSWORD], config[CONF_SUBSCRIPTIONID])
+    # api = AguasGaia(session, config.get(CONF_USERNAME), config.get(CONF_PASSWORD), config.get(CONF_SUBSCRIPTIONID))
+
+    api = config_entry.data.get(API)
 
     sensors = [AguasGaiaSensor(api, PRICE_ENTITY), AguasGaiaSensor(api, CONSUMPTION_ENTITY)]
 
@@ -55,7 +58,7 @@ class AguasGaiaSensor(SensorEntity):
         self._sensorType = sensorType
         self._invoice = None
         self._consumption = None
-        self._entity_name = self._sensorType+"_"+self._api.get_subscription()
+        self._entity_name = self._sensorType+"_"+self._api.get_selected_subscription()
         self._state_class = SensorStateClass.MEASUREMENT
         self._state = None
         self._available = True

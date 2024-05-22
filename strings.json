@@ -4,15 +4,15 @@
         "step": {
             "user": {
                 "title": "Please add your credentials of Aguas de Gaia",
-                "description": "This is a description",
+                "description": "https://portal.ucloud.cgi.com/uPortal2/gaia/index.html",
                 "data": {
-                    "username": "Aguas de Gaia username",
+                    "username": "Aguas de Gaia email",
                     "password": "Aguas de Gaia password",
                     "subscriptionID": "Agua de Gaia Subscription ID"
                 },
                 "data_description": {
-                    "username": "username description",
-                    "password": "password description",
+                    "username": "",
+                    "password": "",
                     "subscriptionID": "Check Docs to find your subscription ID"
                 }
             }
