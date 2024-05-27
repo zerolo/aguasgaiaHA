@@ -55,7 +55,7 @@ class AguasGaiaSensor(SensorEntity):
         self._sensorType = sensorType
         self._invoice = None
         self._consumption = None
-        self._entity_name = self._sensorType+"_"+self._api.get_subscription()
+        self._entity_name = self._sensorType+"_"+self._api.get_selected_subscription()
         self._state_class = SensorStateClass.MEASUREMENT
         self._state = None
         self._available = True
