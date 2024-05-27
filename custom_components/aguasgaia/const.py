@@ -1,4 +1,9 @@
-DOMAIN = "aguas_gaia"
+DOMAIN = "AguasdeGaia"
+
+API = "API"
+
+PRICE_ENTITY = "Price"
+CONSUMPTION_ENTITY = "Consumption"
 
 PRICE_ENTITY = "Price"
 CONSUMPTION_ENTITY = "Consumption"

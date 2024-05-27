@@ -1,0 +1,14 @@
+{
+    "version": "0.0.5",
+    "domain": "aguasgaia",
+    "name": "Aguas de Gaia",
+    "documentation": "https://github.com/zerolo/aguasgaiaHA",
+    "issue_tracker": "https://github.com/zerolo/aguasgaiaHA/issues",
+    "iot_class": "cloud_polling",
+    "requirements": ["aguasgaia==0.0.18"],
+    "dependencies": [],
+    "codeowners": [
+        "@zerolo"
+    ],
+    "config_flow": true
+}
