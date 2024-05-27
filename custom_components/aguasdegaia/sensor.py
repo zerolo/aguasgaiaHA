@@ -4,12 +4,10 @@ from typing import Any, Dict
 
 import aiohttp
 from .const import (
+    API,
     DOMAIN, 
     PRICE_ENTITY,
     CONSUMPTION_ENTITY,
-    CONF_USERNAME, 
-    CONF_PASSWORD,
-    CONF_SUBSCRIPTIONID,
     DEFAULT_MONETARY_ICON,
     DEFAULT_CONSUMPTION_ICON,
     UNIT_OF_MEASUREMENT_EURO,
@@ -34,11 +32,8 @@ SCAN_INTERVAL = timedelta(hours=12)
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
     """ Setup Sensors"""
     _LOGGER.debug("Setup Entry")
-    session = async_get_clientsession(hass, True)
 
-    config = config_entry.data
-
-    api = AguasGaia(session, config[CONF_USERNAME], config[CONF_PASSWORD], config[CONF_SUBSCRIPTIONID])
+    api = config_entry.data.get(API)
 
     sensors = [AguasGaiaSensor(api, PRICE_ENTITY), AguasGaiaSensor(api, CONSUMPTION_ENTITY)]
 
