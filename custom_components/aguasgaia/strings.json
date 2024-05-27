@@ -6,14 +6,14 @@
                 "title": "Please add your credentials of Aguas de Gaia",
                 "description": "This is a description",
                 "data": {
-                    "username": "Aguas de Gaia username",
+                    "username": "Aguas de Gaia email",
                     "password": "Aguas de Gaia password",
-                    "subscriptionID": "Agua de Gaia Subscription ID"
+                    "subscriptionID": "Agua de Gaia Subscription ID (Optional)"
                 },
                 "data_description": {
-                    "username": "username description",
-                    "password": "password description",
-                    "subscriptionID": "Check Docs to find your subscription ID"
+                    "username": "",
+                    "password": "",
+                    "subscriptionID": ""
                 }
             }
         },
