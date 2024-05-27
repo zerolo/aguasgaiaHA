@@ -7,11 +7,13 @@
                 "description": "This is a description",
                 "data": {
                     "username": "Aguas de Gaia username",
-                    "password": "Aguas de Gaia password"
+                    "password": "Aguas de Gaia password",
+                    "subscriptionID": "Agua de Gaia Subscription ID"
                 },
                 "data_description": {
                     "username": "username description",
-                    "password": "password description"
+                    "password": "password description",
+                    "subscriptionID": "Check Docs to find your subscription ID"
                 }
             }
         },

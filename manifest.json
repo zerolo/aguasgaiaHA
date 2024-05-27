@@ -1,14 +1,14 @@
 {
-    "version": "0.0.1",
+    "version": "0.0.3",
     "domain": "aguas_gaia",
     "name": "Aguas de Gaia",
     "documentation": "",
     "issue_tracker": "",
     "iot_class": "cloud_polling",
-    "requirements": [],
+    "requirements": ["git+https://github.com/zerolo/aguasgaia.git@feature/lib_impl"],
     "dependencies": [],
     "codeowners": [
-        "JR Inc"
+        "@zerolo"
     ],
     "config_flow": true
 }

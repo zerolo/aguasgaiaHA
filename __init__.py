@@ -1,13 +1,13 @@
 import logging
 
-from .aguasgaia.aguasgaia import AguasGaia
-from .const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
+from aguasgaia import AguasGaia
+from .const import CONF_PASSWORD, CONF_USERNAME, CONF_SUBSCRIPTIONID, DOMAIN
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
-__version__ = "0.0.1"
+__version__ = "0.0.3"
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
 
@@ -22,7 +22,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType):
     hass.data.setdefault(DOMAIN, {})
 
     session = async_get_clientsession(hass, True)
-    api = AguasGaia(session, configDetails.get(CONF_USERNAME), configDetails.get(CONF_PASSWORD))
+    api = AguasGaia(session, configDetails.get(CONF_USERNAME), configDetails.get(CONF_PASSWORD), configDetails.get(CONF_SUBSCRIPTIONID))
 
     _LOGGER.debug("Saving API into hass.data[DOMAIN]")
 

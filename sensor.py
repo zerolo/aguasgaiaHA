@@ -5,15 +5,18 @@ from typing import Any, Dict
 import aiohttp
 from .const import (
     DOMAIN, 
+    PRICE_ENTITY,
+    CONSUMPTION_ENTITY,
     CONF_USERNAME, 
     CONF_PASSWORD,
+    CONF_SUBSCRIPTIONID,
     DEFAULT_MONETARY_ICON,
     DEFAULT_CONSUMPTION_ICON,
     UNIT_OF_MEASUREMENT_EURO,
     UNIT_OF_MEASUREMENT_WATER,
     ATTRIBUTION
 )
-from .aguasgaia.aguasgaia import AguasGaia
+from aguasgaia import AguasGaia
 
 from homeassistant.components.sensor import (SensorDeviceClass, SensorEntity,
                                              SensorStateClass)
@@ -26,18 +29,18 @@ _LOGGER = logging.getLogger(__name__)
 _LOGGER.setLevel(logging.DEBUG)
 
 # API Poll time
-SCAN_INTERVAL = timedelta(hours=2)
+SCAN_INTERVAL = timedelta(hours=12)
 
 async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
     """ Setup Sensors"""
+    _LOGGER.debug("Setup Entry")
     session = async_get_clientsession(hass, True)
 
     config = config_entry.data
 
-    api = AguasGaia(session, config[CONF_USERNAME], config[CONF_PASSWORD])
-    await api.initialize()
+    api = AguasGaia(session, config[CONF_USERNAME], config[CONF_PASSWORD], config[CONF_SUBSCRIPTIONID])
 
-    sensors = [AguasGaiaSensor(api,"lastInvoice"), AguasGaiaSensor(api,"lastConsumption")]
+    sensors = [AguasGaiaSensor(api, PRICE_ENTITY), AguasGaiaSensor(api, CONSUMPTION_ENTITY)]
 
     async_add_entities(sensors, update_before_add=True)
 
@@ -46,34 +49,37 @@ class AguasGaiaSensor(SensorEntity):
     """ Aguas de Gaia sensor representation """
 
     def __init__(self, api: AguasGaia, sensorType: str):
+        _LOGGER.debug("Init  %s",sensorType)
         super().__init__()
         self._api = api
         self._sensorType = sensorType
+        self._invoice = None
+        self._consumption = None
+        self._entity_name = self._sensorType+"_"+self._api.get_subscription()
+        self._state_class = SensorStateClass.MEASUREMENT
+        self._state = None
+        self._available = True
 
-        if sensorType is "lastInvoice":
+        if sensorType == PRICE_ENTITY:
             self._icon = DEFAULT_MONETARY_ICON
             self._unit_of_measurement = UNIT_OF_MEASUREMENT_EURO
             self._device_class = SensorDeviceClass.MONETARY
-            self._state_class = SensorStateClass.MEASUREMENT
-            self._state = None
-            self._available = True
-        elif sensorType is "lastConsumption":
+        elif sensorType == CONSUMPTION_ENTITY:
             self._icon = DEFAULT_CONSUMPTION_ICON
             self._unit_of_measurement = UNIT_OF_MEASUREMENT_WATER
             self._device_class = SensorDeviceClass.WATER
-            self._state_class = SensorStateClass.MEASUREMENT
-            self._state = None
-            self._available = True
+            self._state_class = SensorStateClass.TOTAL
+            
 
     @property
     def name(self) ->  str:
         """ Entity Name """
-        return self._sensorType
+        return self._entity_name
     
     @property
     def unique_id(self) -> str:
         """ Sensor unique id """
-        return f"{DOMAIN}__{self._sensorType}"
+        return f"{DOMAIN}__{self._entity_name}"
     
     @property
     def available(self) -> bool:
@@ -103,21 +109,34 @@ class AguasGaiaSensor(SensorEntity):
     def attribution(self):
         return ATTRIBUTION
     
+    
     @property
     def extra_state_attributes(self) -> Dict[str, Any]:
-        if self._api.lastdocdata:
-            return self._api.lastdocdata[0]
+        if self._sensorType == PRICE_ENTITY:
+            if self._invoice:
+                return self._invoice.invoice_attributes
+        elif self._sensorType == CONSUMPTION_ENTITY:
+            if self._consumption:
+                return self._consumption.consumption_attributes
         return {}
 
     async def async_update(self) -> None:
+        _LOGGER.debug("Update %s",self._sensorType)
         try:
-            if self._sensorType is "lastInvoice":
-                invoice = await self._api.getLastDocData()
-                if invoice:
-                    self._state = invoice[0]["dadosPagamento"]["valor"]
+            await self._api.login()
+            if self._sensorType == PRICE_ENTITY:
+                self._invoice = await self._api.get_last_invoice()
+                _LOGGER.debug("invoice %s",self._invoice)
+                if self._invoice:
+                    self._state = round(self._invoice.invoice_value, 2) 
+            elif self._sensorType == CONSUMPTION_ENTITY:
+                self._consumption = await self._api.get_last_consumption()
+                _LOGGER.debug("consumption %s",self._consumption)
+                if self._consumption:
+                    self._state = round(self._consumption.consumption_value, 2) 
             else:
                 self._state = 99
         except aiohttp.ClientError as err:
             self._available = False
-            _LOGGER.exception("Error retrieving data from Aguas de Gaia API: %s", err)
+            _LOGGER.error("Error retrieving data from Aguas de Gaia API: %s", err)
     

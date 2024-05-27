@@ -1,12 +1,13 @@
 import logging
 from typing import Any
-from .aguasgaia.aguasgaia import AguasGaia
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
+from .const import CONF_PASSWORD, CONF_USERNAME, CONF_SUBSCRIPTIONID, DOMAIN
+
+from aguasgaia import AguasGaia
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -15,7 +16,8 @@ _LOGGER.setLevel(logging.DEBUG)
 DATA_SCHEMA = vol.Schema(
     { 
         vol.Required(CONF_USERNAME): str,
-        vol.Required(CONF_PASSWORD): str
+        vol.Required(CONF_PASSWORD): str,
+        vol.Required(CONF_SUBSCRIPTIONID): str
     }
 )
 
@@ -38,7 +40,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if connOK:
                 _LOGGER.debug("Login Succeeded")
                 return self.async_create_entry(
-                    title=user_input[CONF_USERNAME],
+                    title=user_input[CONF_USERNAME]+" - "+user_input[CONF_SUBSCRIPTIONID],
                     data=user_input
                 )
             else:
@@ -52,10 +54,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors=errors
         )
     
-    async def try_login(self, username, password):
+    async def try_login(self, username, password) -> bool:
         try:
             session = async_get_clientsession(self.hass, True)
-            AguasGaia(session, username, password)
-        except Any as err:
+            return AguasGaia(session, username, password, None).login()
+        except Exception as err:
+            _LOGGER.error("Attempt to login failed %s",err)
             return False
-        return True
