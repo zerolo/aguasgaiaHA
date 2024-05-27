@@ -8,12 +8,12 @@
                 "data": {
                     "username": "Aguas de Gaia email",
                     "password": "Aguas de Gaia password",
-                    "subscriptionID": "Agua de Gaia Subscription ID"
+                    "subscriptionID": "Agua de Gaia Subscription ID (Optional)"
                 },
                 "data_description": {
                     "username": "",
                     "password": "",
-                    "subscriptionID": "Check Docs to find your subscription ID"
+                    "subscriptionID": ""
                 }
             }
         },

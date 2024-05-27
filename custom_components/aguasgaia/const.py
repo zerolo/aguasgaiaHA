@@ -1,4 +1,4 @@
-DOMAIN = "Aguas de Gaia"
+DOMAIN = "AguasdeGaia"
 
 API = "API"
 
