@@ -5,7 +5,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import CONF_PASSWORD, CONF_USERNAME, CONF_SUBSCRIPTIONID, DOMAIN
+from .const import API, CONF_PASSWORD, CONF_USERNAME, CONF_SUBSCRIPTIONID, DOMAIN
 
 from aguasgaia import AguasGaia
 
@@ -33,15 +33,20 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         errors = {}
 
         if user_input is not None:
-            await self.async_set_unique_id(user_input[CONF_USERNAME])
+            await self.async_set_unique_id(user_input.get(CONF_USERNAME))
             self._abort_if_unique_id_configured()
 
-            connOK = await self.try_login(user_input[CONF_USERNAME],user_input[CONF_PASSWORD])
+            session = async_get_clientsession(self.hass, True)
+            api = AguasGaia(session, user_input.get(CONF_USERNAME), user_input.get(CONF_PASSWORD), user_input.get(CONF_SUBSCRIPTIONID))
+            connOK = await api.login()
             if connOK:
                 _LOGGER.debug("Login Succeeded")
                 return self.async_create_entry(
-                    title=user_input[CONF_USERNAME]+" - "+user_input[CONF_SUBSCRIPTIONID],
-                    data=user_input
+                    title=user_input.get(CONF_USERNAME)+" - "+api.get_selected_subscription(),
+                    data={
+                        **user_input,
+                        API: api
+                    }
                 )
             else:
                 errors = {
@@ -54,10 +59,3 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors=errors
         )
     
-    async def try_login(self, username, password) -> bool:
-        try:
-            session = async_get_clientsession(self.hass, True)
-            return AguasGaia(session, username, password, None).login()
-        except Exception as err:
-            _LOGGER.error("Attempt to login failed %s",err)
-            return False
