@@ -1,11 +1,10 @@
 import logging
-from typing import Any
 import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import API, CONF_PASSWORD, CONF_USERNAME, CONF_SUBSCRIPTIONID, DOMAIN
+from .const import CONF_PASSWORD, CONF_USERNAME, CONF_SUBSCRIPTIONID, DOMAIN
 
 from aguasgaia import AguasGaia
 
@@ -41,11 +40,11 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             connOK = await api.login()
             if connOK:
                 _LOGGER.debug("Login Succeeded")
+                user_input[CONF_SUBSCRIPTIONID] = api.get_selected_subscription()
                 return self.async_create_entry(
-                    title=user_input.get(CONF_USERNAME)+" - "+api.get_selected_subscription(),
+                    title=user_input.get(CONF_USERNAME)+" - "+user_input.get(CONF_SUBSCRIPTIONID),
                     data={
-                        **user_input,
-                        API: api
+                        **user_input
                     }
                 )
             else:
