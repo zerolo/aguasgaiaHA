@@ -8,5 +8,5 @@
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/zerolo/aguasgaiaHA/issues",
     "requirements": ["aguasgaia==0.0.18"],
-    "version": "0.0.92"
+    "version": "0.0.93"
 }

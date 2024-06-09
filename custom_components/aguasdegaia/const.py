@@ -1,7 +1,5 @@
 DOMAIN = "aguasdegaia"
 
-API = "API"
-
 PRICE_ENTITY = "Price"
 CONSUMPTION_ENTITY = "Consumption"
 
