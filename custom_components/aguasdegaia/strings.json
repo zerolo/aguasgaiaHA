@@ -1,5 +1,4 @@
 {
-    "title": "Aguas de Gaia",
     "config": {
         "step": {
             "user": {
@@ -15,13 +14,34 @@
                     "password": "",
                     "subscriptionID": ""
                 }
+            },
+            "reauth_confirm": {
+                "title": "Reauthenticate with Aguas de Gaia",
+                "description": "Enter the new password for {username}.",
+                "data": {
+                    "password": "Aguas de Gaia password"
+                }
             }
         },
         "error": {
-            "invalid_login": "Invalid Login"
+            "invalid_login": "Invalid Login",
+            "cannot_connect": "Unable to connect to Aguas de Gaia",
+            "unknown": "Unexpected error"
         },
         "abort": {
-            "already_configured": "Integration is already configured"
+            "already_configured": "Integration is already configured",
+            "reauth_successful": "Reauthentication successful",
+            "reauth_failed": "Reauthentication failed"
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Aguas de Gaia options",
+                "data": {
+                    "scan_interval": "Update interval (hours)"
+                }
+            }
         }
     }
 }

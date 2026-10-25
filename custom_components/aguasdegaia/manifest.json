@@ -5,8 +5,10 @@
     "config_flow": true,
     "dependencies": [],
     "documentation": "https://github.com/zerolo/aguasgaiaHA",
+    "integration_type": "service",
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/zerolo/aguasgaiaHA/issues",
+    "loggers": ["aguasgaia"],
     "requirements": ["aguasgaia==0.0.21"],
-    "version": "0.0.95"
+    "version": "0.0.96"
 }
