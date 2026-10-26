@@ -12,6 +12,7 @@ from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
+    CONFIGURATION_URL,
     CONF_PASSWORD,
     CONF_SCAN_INTERVAL,
     CONF_SUBSCRIPTIONID,
@@ -90,6 +91,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=DATA_SCHEMA,
             errors=errors,
+            description_placeholders={"portal_url": CONFIGURATION_URL},
         )
 
     async def async_step_reauth(self, entry_data):
